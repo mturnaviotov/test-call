@@ -14,12 +14,12 @@ jobs:
           github-token: ${{ secrets.TRIGGER_TOKEN }}
           script: |
             const tagRef = '${{ github.ref }}'.replace('refs/tags/', '');
-            await github.actions.createWorkflowDispatch({
+            await github.rest.actions.createWorkflowDispatch({
               owner: 'mturnaviotov',
               repo: 'test-run',
               workflow_id: 'blank.yml',
               ref: 'main',
-              inputs: {
+              payload: {
                 username: tagRef
               }
             });
