@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - '*'
+
 jobs:  
   trigger_ci:  
     runs-on: ubuntu-latest
@@ -14,12 +15,21 @@ jobs:
           github-token: ${{ secrets.TRIGGER_TOKEN }}
           script: |
             const tagRef = '${{ github.ref }}'.replace('refs/tags/', '');
-            await github.rest.actions.createWorkflowDispatch({
+            // Octokit.js
+            // https://github.com/octokit/core.js#readme
+            const octokit = new Octokit({
+              auth: ${{ secrets.TRIGGER_TOKEN }}
+            })
+            
+            await octokit.request('POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches', {
               owner: 'mturnaviotov',
               repo: 'test-run',
               workflow_id: 'blank.yml',
               ref: 'main',
-              payload: {
+              inputs: {
                 username: tagRef
+              },
+              headers: {
+                'X-GitHub-Api-Version': '2026-03-10'
               }
-            });
+            })
