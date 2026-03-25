@@ -22,7 +22,7 @@ jobs:
               workflow_id: 'blank.yml',
               ref: 'main',
               inputs: {
-                username: tagRef
+                app_version: tagRef
               },
               headers: {
                 'X-GitHub-Api-Version': '2026-03-10'
