@@ -15,12 +15,7 @@ jobs:
           github-token: ${{ secrets.TRIGGER_TOKEN }}
           script: |
             const tagRef = '${{ github.ref }}'.replace('refs/tags/', '');
-            // Octokit.js
-            // https://github.com/octokit/core.js#readme
-            const octokit = new Octokit({
-              auth: ${{ secrets.TRIGGER_TOKEN }}
-            })
-            
+            // Octokit.js          
             await octokit.request('POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches', {
               owner: 'mturnaviotov',
               repo: 'test-run',
