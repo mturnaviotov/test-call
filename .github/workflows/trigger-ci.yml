@@ -1,9 +1,9 @@
 name: Trigger CI
 
-on:  
-  create:  
-    types: [tag]
-
+on:
+  push:
+    tags:
+      - '*'
 jobs:  
   trigger_ci:  
     runs-on: ubuntu-latest
@@ -11,7 +11,7 @@ jobs:
       - name: Trigger CI Workflow
         uses: actions/github-script@v7
         with:  
-          github-token: ${{ secrets.trgger_token }}
+          github-token: ${{ secrets.TRIGGER_TOKEN }}
           script: |
             const tagRef = '${{ github.ref }}'.replace('refs/tags/', '');
             await github.rest.actions.createWorkflowDispatch({
