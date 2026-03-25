@@ -14,4 +14,4 @@ jobs:
           GH_TOKEN: ${{ secrets.TRIGGER_TOKEN }}
         run: |
           tagRef=`echo ${{ github.ref }} | awk -F'/' '{print $3}'`
-          gh workflow run -R mturnaviotov/test-run blank.yml -f $tagRef
+          gh workflow run -R mturnaviotov/test-run blank.yml -f app-version=$tagRef
