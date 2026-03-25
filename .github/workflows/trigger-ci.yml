@@ -1,0 +1,25 @@
+name: Trigger CI
+
+on:  
+  create:  
+    types: [tag]
+
+jobs:  
+  trigger_ci:  
+    runs-on: ubuntu-latest
+    steps:  
+      - name: Trigger CI Workflow
+        uses: actions/github-script@v7
+        with:  
+          github-token: ${{ secrets.trgger_token }}
+          script: |
+            const tagRef = '${{ github.ref }}'.replace('refs/tags/', '');
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'mturnaviotov',
+              repo: 'test-run',
+              workflow_id: 'blank.yml',
+              ref: 'main',
+              inputs: {
+                username: tagRef
+              }
+            });
